@@ -1,6 +1,7 @@
 import './styles/App.css';
 import twitterLogo from './assets/twitter-logo.svg';
 import React, { useEffect, useState } from "react";
+import { ethers } from "ethers";
 import myEpicNft from './utils/MyEpicNFT.json';
 
 const TWITTER_HANDLE = '_buildspace';
@@ -32,7 +33,7 @@ const App = () => {
         console.log("No authorized account found")
     }
   }
-  
+
   const askContractToMintNft = async () => {
     const CONTRACT_ADDRESS = '0x7A6775C2AD03F1894ed6aa367D674912b19EB6C0';
     try {
