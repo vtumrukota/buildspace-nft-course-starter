@@ -10,52 +10,53 @@ const TOTAL_MINT_COUNT = 50;
 
 const App = () => {
 
-    const [currentAccount, setCurrentAccount] = useState("");
-    
-    const checkIfWalletIsConnected = async () => {
-      const { ethereum } = window;
+  const [currentAccount, setCurrentAccount] = useState("");
+  
+  const checkIfWalletIsConnected = async () => {
+    const { ethereum } = window;
 
-      if (!ethereum) {
-          console.log("Make sure you have metamask!");
-          return;
-      } else {
-          console.log("We have the ethereum object", ethereum);
-      }
+    if (!ethereum) {
+        console.log("Make sure you have metamask!");
+        return;
+    } else {
+        console.log("We have the ethereum object", ethereum);
+    }
 
-      const accounts = await ethereum.request({ method: 'eth_accounts' });
+    const accounts = await ethereum.request({ method: 'eth_accounts' });
 
-      if (accounts.length !== 0) {
-          const account = accounts[0];
-          console.log("Found an authorized account:", account);
-          setCurrentAccount(account)
-      } else {
-          console.log("No authorized account found")
-      }
+    if (accounts.length !== 0) {
+        const account = accounts[0];
+        console.log("Found an authorized account:", account);
+        setCurrentAccount(account)
+    } else {
+        console.log("No authorized account found")
+    }
   }
+  
   const askContractToMintNft = async () => {
     const CONTRACT_ADDRESS = '0x7A6775C2AD03F1894ed6aa367D674912b19EB6C0';
-      try {
-        const { ethereum } = window;
-  
-        if (ethereum) {
-          const provider = new ethers.providers.Web3Provider(ethereum);
-          const signer = provider.getSigner();
-          const connectedContract = new ethers.Contract(CONTRACT_ADDRESS, myEpicNft.abi, signer);
-  
-          console.log("Going to pop wallet now to pay gas...")
-          let nftTxn = await connectedContract.makeAnEpicNFT();
-  
-          console.log("Mining...please wait.")
-          await nftTxn.wait();
-          
-          console.log(`Mined, see transaction: https://rinkeby.etherscan.io/tx/${nftTxn.hash}`);
-  
-        } else {
-          console.log("Ethereum object doesn't exist!");
-        }
-      } catch (error) {
-        console.log(error)
+    try {
+      const { ethereum } = window;
+      console.log('called contract to mint', ethereum);
+      if (ethereum) {
+        const provider = new ethers.providers.Web3Provider(ethereum);
+        const signer = provider.getSigner();
+        const connectedContract = new ethers.Contract(CONTRACT_ADDRESS, myEpicNft.abi, signer);
+
+        console.log("Going to pop wallet now to pay gas...")
+        let nftTxn = await connectedContract.makeAnEpicNFT();
+
+        console.log("Mining...please wait.")
+        await nftTxn.wait();
+        
+        console.log(`Mined, see transaction: https://rinkeby.etherscan.io/tx/${nftTxn.hash}`);
+
+      } else {
+        console.log("Ethereum object doesn't exist!");
       }
+    } catch (error) {
+      console.log(error)
+    }
   }
   /*
   * Implement your connectWallet method here
