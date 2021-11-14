@@ -35,7 +35,7 @@ const App = () => {
   }
 
   const askContractToMintNft = async () => {
-    const CONTRACT_ADDRESS = '0x7A6775C2AD03F1894ed6aa367D674912b19EB6C0';
+    const CONTRACT_ADDRESS = '0xa2Ea59724907a301c0762e8435bc11b3fd6D5c73';
     try {
       const { ethereum } = window;
       console.log('called contract to mint', ethereum);
